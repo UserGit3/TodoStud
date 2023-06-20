@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ToDoStud</string>
+    <string name="navBar_home">Главная</string>
+    <string name="navBar_profile">Профиль</string>
+    <string name="navBar_settings">Настройки</string>
+    <string name="search">Поиск</string>
+    <string name="add_note">Добавить заметку</string>
+    <string name="placeholder_title_note">Заголовок</string>
+    <string name="placeholder_body_note">Текст</string>
+    <string name="pomodoro_timer_name">Таймер</string>
+    <string name="titlePerformance">Показатели</string>
+    <string name="notes">Заметки</string>
+    <string name="sortByDate">Дата</string>
+    <string name="sortByColor">Цвет</string>
+    <string name="sortByAscending">По возрастанию</string>
+    <string name="sortByDescending">По убыванию</string>
+</resources>

@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">ToDoStud</string>
+    <string name="navBar_home">Home</string>
+    <string name="navBar_profile">Profile</string>
+    <string name="navBar_settings">Settings</string>
+    <string name="search">Search</string>
+    <string name="add_note">Add note</string>
+    <string name="placeholder_title_note">Header</string>
+    <string name="placeholder_body_note">Type your text here</string>
+    <string name="pomodoro_timer_name">Timer</string>
+    <string name="titlePerformance">Performance</string>
+    <string name="notes">Notes</string>
+    <string name="sortByDate">Date</string>
+    <string name="sortByColor">Color</string>
+    <string name="sortByAscending">Ascending</string>
+    <string name="sortByDescending">Descending</string>
+</resources>
