@@ -64,7 +64,7 @@ fun navigationBar(navController: NavController) {
                     )
                 },
                 label = { Text(stringResource(id = item.title)) },
-                selected = currentRoute==item.route,
+                selected = currentRoute == item.route,
                 onClick = { navController.navigate(item.route) }
             )
         }
@@ -87,9 +87,11 @@ fun actionButton() {
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@Preview
+
 @Composable
-fun topAppBar() {
+fun topAppBar(
+    navController: NavController,
+) {
     var text by remember { mutableStateOf("") }
     var active by remember { mutableStateOf(false) }
     var items = remember {
@@ -103,12 +105,9 @@ fun topAppBar() {
         onSearch = {
             if (text.isNotEmpty()) {
                 items.add(text)
-                active = false
-                text = ""
-            } else {
-                active = false
-                text = ""
             }
+            navController.navigate(NavigationItems.NotesScreen.route + "?searchBarContent=" + text)
+            active = false
         },
         active = active,
         onActiveChange = { active = it },
@@ -137,7 +136,11 @@ fun topAppBar() {
     ) {
         if (items.isNotEmpty()) {
             items.forEach {
-                Row(modifier = Modifier.padding(14.dp)) {
+                Row(modifier = Modifier
+                    .padding(14.dp)
+                    .clickable {
+                        text = it
+                    }) {
                     Icon(
                         modifier = Modifier.padding(end = 10.dp),
                         imageVector = Icons.Default.History,

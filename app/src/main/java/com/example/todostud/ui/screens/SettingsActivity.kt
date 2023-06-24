@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.todostud.R
+import com.example.todostud.ui.components.SettingsItem
 
 @Preview(showBackground = true)
 @Composable
@@ -31,9 +32,10 @@ fun SettingsActivity() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        SettingsItem()
         Text(
             text = "ToDo Stud App" + "\n" +
-                    "Version 1.0",
+                    "Version 0.0.1",
             fontStyle = MaterialTheme.typography.bodyLarge.fontStyle
         )
     }

@@ -28,6 +28,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.ColorUtils
 import com.example.todostud.feature_note.domain.model.Note
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.util.Date
+import kotlin.time.Duration.Companion.hours
 
 @Composable
 fun NoteItem(
@@ -86,6 +90,11 @@ fun NoteItem(
                 maxLines = 4,
                 overflow = TextOverflow.Ellipsis
             )
+            Divider()
+            Text(
+                text = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date(note.timestamp))
+            )
+
         }
         IconButton(
             onClick = onDeleteClick,

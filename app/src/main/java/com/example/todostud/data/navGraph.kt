@@ -17,8 +17,21 @@ import com.example.todostud.ui.screens.SettingsActivity
 @Composable
 fun NavGraph(navHostController: NavHostController) {
     NavHost(navController = navHostController, startDestination = "Main_Screen") {
-        composable("Main_Screen") {
-            NotesScreen(navHostController)
+        composable(
+            "Notes_Screen" + "?searchBarContent={searchBarContent}", arguments = listOf(
+                navArgument(
+                    name = "searchBarContent"
+                ) {
+                    type = NavType.StringType
+                    defaultValue = ""
+                }
+            )
+        ) {
+            val search = it.arguments?.getString("searchBarContent") ?: ""
+            NotesScreen(navHostController, searchBarContent = search)
+        }
+        composable("Main_Screen"){
+            NotesScreen(navController = navHostController)
         }
         composable("Pomodoro_Screen") {
             PomodoroScreen()
@@ -48,7 +61,7 @@ fun NavGraph(navHostController: NavHostController) {
             }
         )
         ) {
-            val color = it.arguments?.getInt("noteColor")?: -1
+            val color = it.arguments?.getInt("noteColor") ?: -1
             AddEditNoteScreen(navController = navHostController, noteColor = color)
         }
     }

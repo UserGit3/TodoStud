@@ -35,12 +35,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.todostud.R
+import com.example.todostud.feature_note.domain.model.Note
 import com.example.todostud.presentation.notes.components.NoteItem
 import com.example.todostud.presentation.notes.components.OrderSection
 import com.example.todostud.presentation.util.Screen
@@ -49,11 +51,15 @@ import kotlinx.coroutines.launch
 @Composable
 fun NotesScreen(
     navController: NavController,
-    viewModel: NotesViewModel = hiltViewModel()
+    viewModel: NotesViewModel = hiltViewModel(),
+    searchBarContent: String = ""
 ) {
     val state = viewModel.state.value
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
+    val filteredItems = state.notes.filter { note: Note ->
+        searchBarContent.isEmpty() || note.title.startsWith(searchBarContent)
+    }
 
     Column(Modifier.padding(horizontal = 5.dp)) {
         Row(
@@ -88,35 +94,40 @@ fun NotesScreen(
             )
         }
         Spacer(modifier = Modifier.height(16.dp))
-        LazyColumn(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            items(state.notes) { note ->
-                NoteItem(
-                    note = note,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            navController.navigate(
-                                Screen.AddEditNoteScreen.route +
-                                        "?noteId=${note.id}&&noteColor=${note.color}"
-                            )
-                        },
-                    onDeleteClick = {
-                        viewModel.onEvent(NotesEvent.DeleteNote(note))
-                        scope.launch {
-                            val result = snackbarHostState.showSnackbar(
-                                message = "Note deleted",
-                                actionLabel = "Undo"
-                            )
-                            if (result == SnackbarResult.ActionPerformed) {
-                                viewModel.onEvent(NotesEvent.RestoreNote)
+        if (filteredItems.isNotEmpty()){
+            LazyColumn(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                items(filteredItems) { note ->
+                    NoteItem(
+                        note = note,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                navController.navigate(
+                                    Screen.AddEditNoteScreen.route +
+                                            "?noteId=${note.id}&&noteColor=${note.color}"
+                                )
+                            },
+                        onDeleteClick = {
+                            viewModel.onEvent(NotesEvent.DeleteNote(note))
+                            scope.launch {
+                                val result = snackbarHostState.showSnackbar(
+                                    message = "Note deleted",
+                                    actionLabel = "Undo"
+                                )
+                                if (result == SnackbarResult.ActionPerformed) {
+                                    viewModel.onEvent(NotesEvent.RestoreNote)
+                                }
                             }
                         }
-                    }
-                )
-                Spacer(modifier = Modifier.height(16.dp))
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
             }
+        }else {
+            Text(modifier = Modifier.align(CenterHorizontally).padding(50.dp),text = "Nothing")
         }
     }
 }
+

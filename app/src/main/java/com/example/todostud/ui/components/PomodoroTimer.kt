@@ -2,8 +2,16 @@ package com.example.todostud.ui.components
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Pause
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Stop
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -29,6 +37,9 @@ import kotlinx.coroutines.delay
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
+import kotlin.time.Duration.Companion.hours
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
 @Composable
 fun PomodoroTimer(
@@ -47,6 +58,7 @@ fun PomodoroTimer(
         mutableStateOf(initialValue)
     }
     var currentTime by remember { mutableStateOf(totalTime) }
+    var currentSeconds by remember { mutableStateOf(totalTime) }
     var isTimerRunning by remember {
         mutableStateOf(false)
     }
@@ -95,34 +107,47 @@ fun PomodoroTimer(
             )
         }
         Text(
-            text = (currentTime / 1000L).toString(),
-            fontSize = 44.sp,
+            text = (currentTime / 1000L).seconds.toString(),
+            fontSize = 52.sp,
             fontWeight = FontWeight.Bold,
             color = Color.White
         )
-        Button(
-            onClick = {
-                if (currentTime <= 0L) {
+        Row(modifier = Modifier.align(Alignment.BottomCenter)) {
+            Button(
+                onClick = {
+                    if (currentTime <= 0L) {
+                        currentTime = totalTime
+                        isTimerRunning = true
+                    } else {
+                        isTimerRunning = !isTimerRunning
+                    }
+                },
+                /*colors = ButtonDefaults.buttonColors(
+                    containerColor = if (!isTimerRunning || currentTime <= 0L) {
+                        Color.Green
+                    } else {
+                        Color.Red
+                    }
+                )*/
+            ) {
+                Icon(
+                    imageVector = if (isTimerRunning) Icons.Default.Pause else Icons.Default.PlayArrow,
+                    contentDescription = "Start timer"
+                )
+                /*Text(
+                    text = if (isTimerRunning && currentTime >= 0L) "Stop"
+                    else if (!isTimerRunning && currentTime >= 0L) "Start"
+                    else "Restart"
+                )*/
+            }
+            Spacer(modifier = Modifier.width(5.dp))
+            Button(
+                onClick = {
                     currentTime = totalTime
-                    isTimerRunning = true
-                } else {
-                    isTimerRunning = !isTimerRunning
-                }
-            },
-            modifier = Modifier.align(Alignment.BottomCenter),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = if (!isTimerRunning || currentTime <= 0L) {
-                    Color.Green
-                } else {
-                    Color.Red
-                }
-            )
-        ) {
-            Text(
-                text = if (isTimerRunning && currentTime >= 0L) "Stop"
-                else if (!isTimerRunning && currentTime >= 0L) "Start"
-                else "Restart"
-            )
+                },
+            ) {
+                Icon(imageVector = Icons.Default.Stop, contentDescription = null)
+            }
         }
     }
 }

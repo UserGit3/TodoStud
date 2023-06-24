@@ -52,7 +52,7 @@ fun PomodoroScreen() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        Box() {
+        /*Box() {
             Text(text = "$min:$sec$sec2", fontSize = 72.sp)
         }
         Spacer(modifier = Modifier.padding(15.dp))
@@ -70,13 +70,13 @@ fun PomodoroScreen() {
                 )
             }
             Spacer(modifier = Modifier.padding(5.dp))
-            Button(onClick = { /*TODO*/ }) {
+            Button(onClick = { *//*TODO*//* }) {
                 Icon(imageVector = Icons.Default.Stop, contentDescription = "Start timer")
             }
-        }
+        }*/
 
         PomodoroTimer(
-            totalTime = 100L * 1000L,
+            totalTime = 25 * 60L * 1000L,
             handleColor = Color.Green,
             inActiveBar = Color.DarkGray,
             activeBar = Color.Blue,
